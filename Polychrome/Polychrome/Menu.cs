@@ -9,9 +9,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Polychrome
 {
+    public delegate void MenuSelectionCallback();
+
     class Menu
     {
         public string[] Options { get; private set; }
+        public MenuSelectionCallback[] Callbacks { get; private set; }
         public bool IsOver { get; private set; }
         public int Selection { get; private set; }
         public Texture2D CornerPiece { get; private set; }
@@ -23,9 +26,10 @@ namespace Polychrome
         public SpriteFont Font { get; private set; }
 
 
-        public Menu(string[] options, Vector2 pos, Texture2D corner, Texture2D straight, Texture2D center, int width, int height, SpriteFont font)
+        public Menu(string[] options, MenuSelectionCallback[] callbacks, Vector2 pos, Texture2D corner, Texture2D straight, Texture2D center, int width, int height, SpriteFont font)
         {
             Options = options;
+            Callbacks = callbacks;
             IsOver = false;
             Selection = 0;
             Position = pos;
@@ -65,6 +69,7 @@ namespace Polychrome
                 {
                     //Game1.menuSelection.Play();
                     IsOver = true;
+                    Callbacks[Selection]();
                 }
             }
         }

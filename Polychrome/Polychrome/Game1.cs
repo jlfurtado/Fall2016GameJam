@@ -94,19 +94,19 @@ namespace Polychrome
             menuCenter = textCenter;
 
             string[] t = { "Start game", "Info Screen", "Exit" };
-            titleMenu = new Menu(t, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
+            titleMenu = new Menu(t, new MenuSelectionCallback[] { SwapToPlaying, SwapToInfo, ExitGame }, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
 
             string[] t2 = { "Polychrome" };
             titleBox = new TextBox(t2, new Vector2(40, 50), textCorner, textBar, textCenter, 45, 10, font72);
 
             string[] t5 = { "Return to title", "Exit" };
-            infoMenu = new Menu(t5, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
+            infoMenu = new Menu(t5, new MenuSelectionCallback[] { SwapToTitle, ExitGame }, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
 
             string[] t6 = { "Made the weekend of November 23, 2016", " at a Neumont University Game Jam", "Created by Justin Furtado and Michael Vanderlip" };
             infoBox = new TextBox(t6, new Vector2(40, 50), textCorner, textBar, textCenter, 45, 10, font16);
 
             string[] t7 = { "Return to title", "Exit" };
-            victoryMenu = new Menu(t7, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
+            victoryMenu = new Menu(t7, new MenuSelectionCallback[] { SwapToTitle, ExitGame }, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
 
             string[] t8 = { "Congratulations!" };
             victoryBox = new TextBox(t8, new Vector2(40, 10), textCorner, textBar, textCenter, 45, 10, font72);
@@ -115,10 +115,10 @@ namespace Polychrome
             tempWorldBox = new TextBox(t69, new Vector2(40, 50), textCorner, textBar, textCenter, 45, 10, font16);
 
             string[] t70 = { "Win Game", "Lose Game" };
-            tempWorldMenu = new Menu(t70, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
+            tempWorldMenu = new Menu(t70, new MenuSelectionCallback[] { SwapToVictory, SwapToGameOver }, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
 
             string[] t9 = { "Return to title", "Exit" };
-            gameoverMenu = new Menu(t9, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
+            gameoverMenu = new Menu(t9, new MenuSelectionCallback[] { SwapToTitle, ExitGame }, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
 
             string[] t10 = { "GAME OVER!" };
             gameoverBox = new TextBox(t10, new Vector2(40, 10), textCorner, textBar, textCenter, 45, 10, font72);
@@ -153,104 +153,28 @@ namespace Polychrome
                 Exit();
             }
 
+            InputManager.Update(gameTime);
+
             switch (currentGameState)
             {
                 case GameState.TITLE_SCREEN:
-                    InputManager.Update(gameTime);
                     titleMenu.ProcessInput();
-
-                    if (titleMenu.IsOver)
-                    {
-                        if (titleMenu.Selection == 0)
-                        {
-                            currentGameState = GameState.PLAYING;
-                            tempWorldMenu.ResetMenu();
-                        }
-                        else if (titleMenu.Selection == 1)
-                        {
-                            currentGameState = GameState.INFO_SCREEN;
-                            infoMenu.ResetMenu();
-                        }
-                        else if (titleMenu.Selection == 2)
-                        {
-                            Exit();
-                        }
-                    }
                     break;
 
                 case GameState.PLAYING:
-                    InputManager.Update(gameTime);
                     tempWorldMenu.ProcessInput();
-
-                    if (tempWorldMenu.IsOver)
-                    {
-                        if (tempWorldMenu.Selection == 0)
-                        {
-                            currentGameState = GameState.VICTORY_SCREEN;
-                            victoryMenu.ResetMenu();
-                        }
-                        else if (tempWorldMenu.Selection == 1)
-                        {
-                            currentGameState = GameState.GAMEOVER_SCREEN;
-                            gameoverMenu.ResetMenu();
-                        }
-                    }
-
                     break;
 
                 case GameState.INFO_SCREEN:
-                    InputManager.Update(gameTime);
                     infoMenu.ProcessInput();
-
-                    if (infoMenu.IsOver)
-                    {
-                        if (infoMenu.Selection == 0)
-                        {
-                            currentGameState = GameState.TITLE_SCREEN;
-                            titleMenu.ResetMenu();
-                        }
-                        else if (infoMenu.Selection == 1)
-                        {
-                            Exit();
-                        }
-
-                    }
                     break;
 
                 case GameState.VICTORY_SCREEN:
-                    InputManager.Update(gameTime);
                     victoryMenu.ProcessInput();
-
-                    if (victoryMenu.IsOver)
-                    {
-                        if (victoryMenu.Selection == 0)
-                        {
-                            currentGameState = GameState.TITLE_SCREEN;
-                            titleMenu.ResetMenu();
-                        }
-                        else if (victoryMenu.Selection == 1)
-                        {
-                            Exit();
-                        }
-                    }
                     break;
 
                 case GameState.GAMEOVER_SCREEN:
-                    InputManager.Update(gameTime);
                     gameoverMenu.ProcessInput();
-
-                    if (gameoverMenu.IsOver)
-                    {
-                        if (gameoverMenu.Selection == 0)
-                        {
-                            currentGameState = GameState.TITLE_SCREEN;
-                            titleMenu.ResetMenu();
-                        }
-                        else if (gameoverMenu.Selection == 1)
-                        {
-                            Exit();
-                        }
-                    }
                     break;
 
             }
@@ -310,6 +234,41 @@ namespace Polychrome
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void SwapToPlaying()
+        {
+            currentGameState = GameState.PLAYING;
+            tempWorldMenu.ResetMenu();
+        }
+
+        private void SwapToInfo()
+        {
+            currentGameState = GameState.INFO_SCREEN;
+            infoMenu.ResetMenu();
+        }
+
+        private void ExitGame()
+        {
+            Exit();
+        }
+
+        private void SwapToVictory()
+        {
+            currentGameState = GameState.VICTORY_SCREEN;
+            victoryMenu.ResetMenu();
+        }
+
+        private void SwapToGameOver()
+        {
+            currentGameState = GameState.GAMEOVER_SCREEN;
+            gameoverMenu.ResetMenu();
+        }
+
+        private void SwapToTitle()
+        {
+            currentGameState = GameState.TITLE_SCREEN;
+            titleMenu.ResetMenu();
         }
     }
 
