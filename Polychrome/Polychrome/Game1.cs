@@ -74,6 +74,11 @@ namespace Polychrome
 
             IsMouseVisible = true;
 
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
+            graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
+
             base.Initialize();
         }
 
@@ -101,34 +106,34 @@ namespace Polychrome
             menuCenter = textCenter;
 
             string[] t = { "Start game", "Info Screen", "Exit" };
-            titleMenu = new Menu(t, new MenuSelectionCallback[] { SwapToPlaying, SwapToInfo, ExitGame }, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
+            titleMenu = new Menu(t, new MenuSelectionCallback[] { SwapToPlaying, SwapToInfo, ExitGame }, new Vector2(800, 460), menuCorner, menuBar, menuCenter, 20, 10, font16);
 
             string[] t2 = { "Polychrome" };
-            titleBox = new TextBox(t2, new Vector2(40, 50), textCorner, textBar, textCenter, 45, 10, font72);
+            titleBox = new TextBox(t2, new Vector2(600, 150), textCorner, textBar, textCenter, 45, 10, font72);
 
             string[] t5 = { "Return to title", "Exit" };
-            infoMenu = new Menu(t5, new MenuSelectionCallback[] { SwapToTitle, ExitGame }, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
+            infoMenu = new Menu(t5, new MenuSelectionCallback[] { SwapToTitle, ExitGame }, new Vector2(800, 460), menuCorner, menuBar, menuCenter, 20, 10, font16);
 
             string[] t6 = { "Made the weekend of November 23, 2016", " at a Neumont University Game Jam", "Created by Justin Furtado and Michael Vanderlip" };
-            infoBox = new TextBox(t6, new Vector2(40, 50), textCorner, textBar, textCenter, 45, 10, font16);
+            infoBox = new TextBox(t6, new Vector2(600, 150), textCorner, textBar, textCenter, 45, 10, font16);
 
             string[] t7 = { "Return to title", "Exit" };
-            victoryMenu = new Menu(t7, new MenuSelectionCallback[] { SwapToTitle, ExitGame }, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
+            victoryMenu = new Menu(t7, new MenuSelectionCallback[] { SwapToTitle, ExitGame }, new Vector2(800, 460), menuCorner, menuBar, menuCenter, 20, 10, font16);
 
             string[] t8 = { "Congratulations!" };
-            victoryBox = new TextBox(t8, new Vector2(40, 10), textCorner, textBar, textCenter, 45, 10, font72);
+            victoryBox = new TextBox(t8, new Vector2(600, 10), textCorner, textBar, textCenter, 45, 10, font72);
 
             string[] t9 = { "Return to title", "Exit" };
-            gameoverMenu = new Menu(t9, new MenuSelectionCallback[] { SwapToTitle, ExitGame }, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
+            gameoverMenu = new Menu(t9, new MenuSelectionCallback[] { SwapToTitle, ExitGame }, new Vector2(800, 460), menuCorner, menuBar, menuCenter, 20, 10, font16);
 
             string[] t10 = { "GAME OVER!" };
-            gameoverBox = new TextBox(t10, new Vector2(40, 10), textCorner, textBar, textCenter, 45, 10, font72);
+            gameoverBox = new TextBox(t10, new Vector2(600, 10), textCorner, textBar, textCenter, 45, 10, font72);
 
             string[] t11 = { "Art, programming and sound by Justin Furtado and Michael Vanderlip" };
-            credits = new TextBox(t11, new Vector2(40, 416), textCorner, textBar, textCenter, 45, 4, font16);
+            credits = new TextBox(t11, new Vector2(600, 750), textCorner, textBar, textCenter, 45, 4, font16);
 
             string[] t12 = { "Thanks for playing, we hope you enjoyed Polychrome" };
-            thankYou = new TextBox(t12, new Vector2(40, 170), textCorner, textBar, textCenter, 45, 4, font16);
+            thankYou = new TextBox(t12, new Vector2(600, 170), textCorner, textBar, textCenter, 45, 4, font16);
 
             whiteBG = Content.Load<Texture2D>("BG_White");
             redBG = Content.Load<Texture2D>("BG_Red");
@@ -251,7 +256,9 @@ namespace Polychrome
         private void SwapToPlaying()
         {
             currentGameState = GameState.PLAYING;
-            world = new World(new Texture2D[] { whiteBG, redBG, greenBG, blueBG, blackBG }, new string[] { @"Content\IntroLevel.xml", @"Content\RedLevel.xml", @"Content\GreenLevel.xml", @"Content\BlueLevel.xml", @"Content\FinalLevel.xml" });
+            world = new World(new Texture2D[] { whiteBG, redBG, greenBG, blueBG, blackBG },
+                              new string[] { @"Content\IntroLevel.xml", @"Content\RedLevel.xml", @"Content\GreenLevel.xml", @"Content\BlueLevel.xml", @"Content\FinalLevel.xml" },
+                              GraphicsDevice.Viewport.Width);
         }
 
         private void SwapToInfo()

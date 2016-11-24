@@ -24,13 +24,13 @@ namespace Polychrome
         private Level[] levels;
         private int currentLevel = 0;
 
-        public World(Texture2D[] levelBackgrounds, string[] levelFiles)
+        public World(Texture2D[] levelBackgrounds, string[] levelFiles, int screenWidth)
         {
             levels = new Level[levelBackgrounds.Length];
 
             for (int i = 0; i < levelBackgrounds.Length; ++i)
             {
-                levels[i] = new Level(levelBackgrounds[i], levelFiles[i]);
+                levels[i] = new Level(levelBackgrounds[i], levelFiles[i], screenWidth);
             }
         }
 

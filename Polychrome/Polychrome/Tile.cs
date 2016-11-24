@@ -26,9 +26,9 @@ namespace Polychrome
             Position = position;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, int worldToView)
         {
-            spriteBatch.Draw(Image, Bounds, Color.White);
+            spriteBatch.Draw(Image, new Rectangle(Bounds.X - worldToView, Bounds.Y, Bounds.Width, Bounds.Height), Color.White);
         }
     }
 }

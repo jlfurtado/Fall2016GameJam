@@ -18,7 +18,9 @@ namespace Polychrome
         public bool IsBeaten { get; private set; } = false;
         public bool IsLost { get; private set; } = false;
 
-        public Level(Texture2D background, string filePath)
+        public int LevelWidth { get; private set; }
+
+        public Level(Texture2D background, string filePath, int screenWidth)
         {
             Background = background;
 
@@ -38,6 +40,14 @@ namespace Polychrome
 
             Entities = ents.ToArray();
 
+            int maxW = 0;
+            foreach(Tile tile in Tiles)
+            {
+                if (tile.Bounds.Right > maxW) { maxW = tile.Bounds.Right; }
+            }
+
+            LevelWidth = MathHelper.Max(maxW, screenWidth);
+
             Roy = new Player(Game1.playerSprite, new Vector2(float.Parse(root.Element("PlayerStartX").Value),
                                                              float.Parse(root.Element("PlayerStartY").Value)));
         }
@@ -56,17 +66,27 @@ namespace Polychrome
         {
             spriteBatch.Draw(Background, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
 
+            int d = (int)Roy.Position.X + Roy.Bounds.Width / 2 - screenWidth / 2;
+            d = MathHelper.Clamp(d, 0, LevelWidth - screenWidth);
+            Rectangle screenWorldRect = new Rectangle(d, 0, screenWidth, screenHeight);
+
             foreach (Tile tile in Tiles)
             {
-                tile.Draw(spriteBatch);
+                if (tile.Bounds.Intersects(screenWorldRect))
+                {
+                    tile.Draw(spriteBatch, d);
+                }
             }
 
             foreach (Entity entity in Entities)
             {
-                entity.Draw(spriteBatch);
+                if (entity.Bounds.Intersects(screenWorldRect))
+                {
+                    entity.Draw(spriteBatch, d);
+                }
             }
 
-            Roy.Draw(spriteBatch);
+            Roy.Draw(spriteBatch, d);
         }
     }
 }
