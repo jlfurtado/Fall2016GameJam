@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace Polychrome
 {
-    class Entity
+    class Tile
     {
         public Texture2D Image;
-        public Vector2 Position { get; set; }
+        public Vector2 Position;
         public Rectangle Bounds
         {
             get
@@ -20,19 +20,15 @@ namespace Polychrome
             }
         }
 
-        public Entity(Texture2D image, Vector2 position)
+        public Tile(Texture2D image, Vector2 position)
         {
-            Position = position;
             Image = image;
+            Position = position;
         }
-
-        public virtual void Update(GameTime gameTime) { }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Image, Bounds, Color.White);
         }
-
-
     }
 }

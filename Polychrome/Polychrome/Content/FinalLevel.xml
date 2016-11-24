@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="Object">
+    	<Level>
+		<PlayerStartX>150</PlayerStartX>
+		<PlayerStartY>200</PlayerStartY>
+		<Tiles>
+			<Tile>
+				<ImageIndex>0</ImageIndex>
+				<X>50</X>
+				<Y>425</Y>
+			</Tile>
+		</Tiles>
+		<Entities>
+			<Entity>
+				<ImageIndex>0</ImageIndex>
+				<X>50</X>
+				<Y>350</Y>
+			</Entity>
+		</Entities>
+	</Level>
+  </Asset>
+</XnaContent>

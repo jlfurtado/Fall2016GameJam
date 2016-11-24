@@ -31,8 +31,6 @@ namespace Polychrome
         // menus and text boxes for screens
         Menu titleMenu;
         TextBox titleBox;
-        Menu tempWorldMenu;
-        TextBox tempWorldBox;
         Menu infoMenu;
         TextBox infoBox;
         Menu victoryMenu;
@@ -45,9 +43,18 @@ namespace Polychrome
         TextBox credits;
 
         // backgrounds
-        Texture2D titleBG;
-        Texture2D gameoverBG;
-        Texture2D victoryBG;
+        Texture2D whiteBG;
+        Texture2D redBG;
+        Texture2D greenBG;
+        Texture2D blueBG;
+        Texture2D blackBG;
+
+        public static Texture2D[] TILES;
+        public static Texture2D[] ENEMIES;
+        public static Texture2D playerSprite;
+
+        // levels
+        World world;
 
         public Game1()
         {
@@ -111,12 +118,6 @@ namespace Polychrome
             string[] t8 = { "Congratulations!" };
             victoryBox = new TextBox(t8, new Vector2(40, 10), textCorner, textBar, textCenter, 45, 10, font72);
 
-            string[] t69 = { "TODO: INSERT GAME HERE!" };
-            tempWorldBox = new TextBox(t69, new Vector2(40, 50), textCorner, textBar, textCenter, 45, 10, font16);
-
-            string[] t70 = { "Win Game", "Lose Game" };
-            tempWorldMenu = new Menu(t70, new MenuSelectionCallback[] { SwapToVictory, SwapToGameOver }, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
-
             string[] t9 = { "Return to title", "Exit" };
             gameoverMenu = new Menu(t9, new MenuSelectionCallback[] { SwapToTitle, ExitGame }, new Vector2(240, 240), menuCorner, menuBar, menuCenter, 20, 10, font16);
 
@@ -128,6 +129,16 @@ namespace Polychrome
 
             string[] t12 = { "Thanks for playing, we hope you enjoyed Polychrome" };
             thankYou = new TextBox(t12, new Vector2(40, 170), textCorner, textBar, textCenter, 45, 4, font16);
+
+            whiteBG = Content.Load<Texture2D>("BG_White");
+            redBG = Content.Load<Texture2D>("BG_Red");
+            greenBG = Content.Load<Texture2D>("BG_Green");
+            blueBG = Content.Load<Texture2D>("BG_Blue");
+            blackBG = Content.Load<Texture2D>("BG_Black");
+
+            TILES = new Texture2D[] { Content.Load<Texture2D>(@"FloorTiles\TopTile") };
+            ENEMIES = new Texture2D[] { Content.Load<Texture2D>(@"BasicEnemies\RedBasic") };
+            playerSprite = Content.Load<Texture2D>(@"Player\PlayerBlue");
 
             // TODO: use this.Content to load your game content here
         }
@@ -162,7 +173,9 @@ namespace Polychrome
                     break;
 
                 case GameState.PLAYING:
-                    tempWorldMenu.ProcessInput();
+                    world.Update(gameTime);
+                    if (world.IsGameOver) { currentGameState = world.IsGameWon ? GameState.VICTORY_SCREEN : GameState.GAMEOVER_SCREEN; }
+
                     break;
 
                 case GameState.INFO_SCREEN:
@@ -195,26 +208,25 @@ namespace Polychrome
             switch (currentGameState)
             {
                 case GameState.TITLE_SCREEN:
-                    //spriteBatch.Draw(titleBG, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                    spriteBatch.Draw(whiteBG, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
                     titleBox.Draw(spriteBatch);
                     titleMenu.Draw(spriteBatch);
                     credits.Draw(spriteBatch);
                     break;
 
                 case GameState.PLAYING:
-                    tempWorldBox.Draw(spriteBatch);
-                    tempWorldMenu.Draw(spriteBatch);
+                    world.Draw(spriteBatch, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
                     break;
 
                 case GameState.INFO_SCREEN:
-                    // spriteBatch.Draw(titleBG, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                    spriteBatch.Draw(whiteBG, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
                     infoBox.Draw(spriteBatch);
                     infoMenu.Draw(spriteBatch);
                     credits.Draw(spriteBatch);
                     break;
 
                 case GameState.VICTORY_SCREEN:
-                    // spriteBatch.Draw(victoryBG, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                    spriteBatch.Draw(whiteBG, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
                     victoryBox.Draw(spriteBatch);
                     victoryMenu.Draw(spriteBatch);
                     credits.Draw(spriteBatch);
@@ -222,7 +234,7 @@ namespace Polychrome
                     break;
 
                 case GameState.GAMEOVER_SCREEN:
-                    // spriteBatch.Draw(gameoverBG, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+                    spriteBatch.Draw(whiteBG, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
                     gameoverBox.Draw(spriteBatch);
                     gameoverMenu.Draw(spriteBatch);
                     credits.Draw(spriteBatch);
@@ -239,7 +251,7 @@ namespace Polychrome
         private void SwapToPlaying()
         {
             currentGameState = GameState.PLAYING;
-            tempWorldMenu.ResetMenu();
+            world = new World(new Texture2D[] { whiteBG, redBG, greenBG, blueBG, blackBG }, new string[] { @"Content\IntroLevel.xml", @"Content\RedLevel.xml", @"Content\GreenLevel.xml", @"Content\BlueLevel.xml", @"Content\FinalLevel.xml" });
         }
 
         private void SwapToInfo()
