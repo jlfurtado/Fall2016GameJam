@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Polychrome
 {
-    class Level
+    public class Level
     {
         public Texture2D Background { get; private set;}
         public Tile[] Tiles { get; private set; }

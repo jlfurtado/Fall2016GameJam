@@ -2,12 +2,42 @@
 <XnaContent xmlns:ns="Microsoft.Xna.Framework">
   <Asset Type="Object">
   	<Level>
-		<PlayerStartX>150</PlayerStartX>
-		<PlayerStartY>200</PlayerStartY>
+		<PlayerStartX>70</PlayerStartX>
+		<PlayerStartY>150</PlayerStartY>
 		<Tiles>
 			<Tile>
 				<ImageIndex>0</ImageIndex>
-				<X>50</X>
+				<X>0</X>
+				<Y>300</Y>
+			</Tile>
+			<Tile>
+				<ImageIndex>0</ImageIndex>
+				<X>64</X>
+				<Y>425</Y>
+			</Tile>
+			<Tile>
+				<ImageIndex>0</ImageIndex>
+				<X>128</X>
+				<Y>225</Y>
+			</Tile>
+			<Tile>
+				<ImageIndex>0</ImageIndex>
+				<X>192</X>
+				<Y>425</Y>
+			</Tile>
+			<Tile>
+				<ImageIndex>0</ImageIndex>
+				<X>256</X>
+				<Y>425</Y>
+			</Tile>
+			<Tile>
+				<ImageIndex>0</ImageIndex>
+				<X>320</X>
+				<Y>425</Y>
+			</Tile>
+			<Tile>
+				<ImageIndex>0</ImageIndex>
+				<X>384</X>
 				<Y>425</Y>
 			</Tile>
 		</Tiles>

@@ -8,10 +8,18 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Polychrome
 {
-    class World
+    public class World
     {
         public bool IsGameOver { get; private set; } = false;
         public bool IsGameWon { get; private set; } = false;
+
+        public Level CurrentLevel
+        {
+            get
+            {
+                return levels[currentLevel];
+            }
+        }
 
         private Level[] levels;
         private int currentLevel = 0;
@@ -40,6 +48,24 @@ namespace Polychrome
             if (currentLevel < levels.Length) { levels[currentLevel].Draw(spriteBatch, screenWidth, screenHeight); }
         }
 
+        public static bool IntersectsTile(Rectangle bounds)
+        {
+            foreach (Tile tile in Game1.world.CurrentLevel.Tiles)
+            {
+                if ((new Rectangle(bounds.X, bounds.Y, bounds.Width, bounds.Height)).Intersects(tile.Bounds)) { return true; }
+            }
 
+            return false;
+        }
+
+        public static bool IntersectsEntity(Rectangle bounds)
+        {
+            foreach (Entity entity in Game1.world.CurrentLevel.Entities)
+            {
+                if ((new Rectangle(bounds.X, bounds.Y, bounds.Width, bounds.Height)).Intersects(entity.Bounds)) { return true; }
+            }
+
+            return false;
+        }
     }
 }

@@ -54,7 +54,7 @@ namespace Polychrome
         public static Texture2D playerSprite;
 
         // levels
-        World world;
+        public static World world;
 
         public Game1()
         {

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace Polychrome
 {
-    class Tile
+    public class Tile
     {
         public Texture2D Image;
         public Vector2 Position;

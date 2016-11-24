@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Polychrome
 {
-    class Entity
+    public class Entity
     {
         public Texture2D Image;
-        public Vector2 Position { get; set; }
+        public Vector2 Position { get; protected set; }
         public Rectangle Bounds
         {
             get
